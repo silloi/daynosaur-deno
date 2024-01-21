@@ -41,6 +41,16 @@ export interface Item {
   score: number;
 }
 
+// DailyItem
+export interface DailyItem {
+  // Uses ULID
+  id: string;
+  date: string;
+  userLogin: string;
+  content: string;
+  score: number;
+}
+
 /** For testing */
 export function randomItem(): Item {
   return {
@@ -48,6 +58,16 @@ export function randomItem(): Item {
     userLogin: crypto.randomUUID(),
     title: crypto.randomUUID(),
     url: `http://${crypto.randomUUID()}.com`,
+    score: 0,
+  };
+}
+
+export function randomDailyItem(): DailyItem {
+  return {
+    id: ulid(),
+    date: new Date().toISOString().slice(0, 10),
+    userLogin: crypto.randomUUID(),
+    content: crypto.randomUUID(),
     score: 0,
   };
 }
@@ -84,6 +104,24 @@ export async function createItem(item: Item) {
   if (!res.ok) throw new Error("Failed to create item");
 }
 
+export async function createDailyItem(dailyItem: DailyItem) {
+  const dailyItemsKey = ["dailyItems", dailyItem.date];
+  const dailyItemsByUserKey = [
+    "dailyItems_by_user",
+    dailyItem.userLogin,
+    dailyItem.date,
+  ];
+
+  const res = await kv.atomic()
+    // .check({ key: dailyItemsKey, versionstamp: null })
+    // .check({ key: dailyItemsByUserKey, versionstamp: null })
+    .set(dailyItemsKey, dailyItem)
+    .set(dailyItemsByUserKey, dailyItem)
+    .commit();
+
+  if (!res.ok) throw new Error("Failed to create item");
+}
+
 /**
  * Gets the item with the given ID from the database.
  *
@@ -102,6 +140,18 @@ export async function createItem(item: Item) {
 export async function getItem(id: string) {
   const res = await kv.get<Item>(["items", id]);
   return res.value;
+}
+
+export async function getDailyItem(date: string) {
+  const res = await kv.get<DailyItem>(["dailyItems", date]);
+  return res.value;
+}
+
+export async function getTodayDailyItem() {
+  const today = new Date().toISOString().slice(0, 10);
+
+  const dailyItem = await getDailyItem(today.toString());
+  return dailyItem;
 }
 
 /**

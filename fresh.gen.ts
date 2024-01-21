@@ -23,6 +23,7 @@ import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
 import * as $dashboard_users from "./routes/dashboard/users.tsx";
 import * as $feed from "./routes/feed.ts";
 import * as $index from "./routes/index.tsx";
+import * as $new from "./routes/new.tsx";
 import * as $pricing from "./routes/pricing.tsx";
 import * as $submit from "./routes/submit.tsx";
 import * as $users_login_ from "./routes/users/[login].tsx";
@@ -55,6 +56,7 @@ const manifest = {
     "./routes/dashboard/users.tsx": $dashboard_users,
     "./routes/feed.ts": $feed,
     "./routes/index.tsx": $index,
+    "./routes/new.tsx": $new,
     "./routes/pricing.tsx": $pricing,
     "./routes/submit.tsx": $submit,
     "./routes/users/[login].tsx": $users_login_,
