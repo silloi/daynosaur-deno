@@ -21,6 +21,7 @@ import * as $blog_index from "./routes/blog/index.tsx";
 import * as $dashboard_index from "./routes/dashboard/index.tsx";
 import * as $dashboard_stats from "./routes/dashboard/stats.tsx";
 import * as $dashboard_users from "./routes/dashboard/users.tsx";
+import * as $diary_date_ from "./routes/diary/[date].tsx";
 import * as $feed from "./routes/feed.ts";
 import * as $index from "./routes/index.tsx";
 import * as $new from "./routes/new.tsx";
@@ -54,6 +55,7 @@ const manifest = {
     "./routes/dashboard/index.tsx": $dashboard_index,
     "./routes/dashboard/stats.tsx": $dashboard_stats,
     "./routes/dashboard/users.tsx": $dashboard_users,
+    "./routes/diary/[date].tsx": $diary_date_,
     "./routes/feed.ts": $feed,
     "./routes/index.tsx": $index,
     "./routes/new.tsx": $new,
