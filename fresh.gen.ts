@@ -8,6 +8,7 @@ import * as $_app from "./routes/_app.tsx";
 import * as $account_index from "./routes/account/index.tsx";
 import * as $account_manage from "./routes/account/manage.ts";
 import * as $account_upgrade from "./routes/account/upgrade.ts";
+import * as $api_dailies_index from "./routes/api/dailies/index.ts";
 import * as $api_items_id_ from "./routes/api/items/[id].ts";
 import * as $api_items_index from "./routes/api/items/index.ts";
 import * as $api_me_votes from "./routes/api/me/votes.ts";
@@ -31,6 +32,7 @@ import * as $submit from "./routes/submit.tsx";
 import * as $users_login_ from "./routes/users/[login].tsx";
 import * as $welcome from "./routes/welcome.tsx";
 import * as $Chart from "./islands/Chart.tsx";
+import * as $DailyItemsList from "./islands/DailyItemsList.tsx";
 import * as $ItemsList from "./islands/ItemsList.tsx";
 import * as $UsersTable from "./islands/UsersTable.tsx";
 import { type Manifest } from "$fresh/server.ts";
@@ -43,6 +45,7 @@ const manifest = {
     "./routes/account/index.tsx": $account_index,
     "./routes/account/manage.ts": $account_manage,
     "./routes/account/upgrade.ts": $account_upgrade,
+    "./routes/api/dailies/index.ts": $api_dailies_index,
     "./routes/api/items/[id].ts": $api_items_id_,
     "./routes/api/items/index.ts": $api_items_index,
     "./routes/api/me/votes.ts": $api_me_votes,
@@ -68,6 +71,7 @@ const manifest = {
   },
   islands: {
     "./islands/Chart.tsx": $Chart,
+    "./islands/DailyItemsList.tsx": $DailyItemsList,
     "./islands/ItemsList.tsx": $ItemsList,
     "./islands/UsersTable.tsx": $UsersTable,
   },

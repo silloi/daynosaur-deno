@@ -199,7 +199,6 @@ export function listDailyItemsByUser(
   userLogin: string,
   options?: Deno.KvListOptions,
 ) {
-  console.log("userLogin", userLogin)
   return kv.list<Item>({ prefix: ["daily_items_by_user", userLogin] }, options);
 }
 

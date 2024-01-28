@@ -1,12 +1,12 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
 import type { State } from "@/plugins/session.ts";
 import Head from "@/components/Head.tsx";
-import ItemsList from "@/islands/ItemsList.tsx";
+import DailyItemsList from "@/islands/DailyItemsList.tsx";
 import { defineRoute } from "$fresh/server.ts";
 
 export default defineRoute<State>((_req, ctx) => {
   const isSignedIn = ctx.state.sessionUser !== undefined;
-  const endpoint = "/api/items";
+  const endpoint = "/api/dailies";
 
   return (
     <>
@@ -17,17 +17,17 @@ export default defineRoute<State>((_req, ctx) => {
           href={endpoint}
           rel="preload"
         />
-        {isSignedIn && (
+        {/* {isSignedIn && (
           <link
             as="fetch"
             crossOrigin="anonymous"
             href="/api/me/votes"
             rel="preload"
           />
-        )}
+        )} */}
       </Head>
       <main class="flex-1 p-4">
-        <ItemsList
+        <DailyItemsList
           endpoint={endpoint}
           isSignedIn={isSignedIn}
         />
