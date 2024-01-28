@@ -43,7 +43,10 @@ export const handler: Handlers<undefined, SignedInState> = {
 };
 
 export default defineRoute<State>(async (_req, ctx) => {
+  const today = new Date().toISOString().slice(0, 10);
+
   const todayDailyItem = await getTodayDailyItem();
+  console.log(new Date().toISOString());
   console.log("todayDailyItem", todayDailyItem);
 
   return (
@@ -52,10 +55,11 @@ export default defineRoute<State>(async (_req, ctx) => {
         <style dangerouslySetInnerHTML={{ __html: CSS }} />
       </Head>
       <main class="flex-1 flex flex-col justify-center mx-auto w-full space-y-16 p-4 max-w-6xl">
-        <div class="text-center">
-          <h1 class="heading-styles">
-            Today's diary
+        <div>
+          <h1 class="text-center heading-styles">
+            Today's dialy
           </h1>
+          <p class="text-gray-500 text-right">{today}</p>
         </div>
         <div class="flex flex-col md:flex-row gap-8 md:gap-16">
           <form
@@ -107,7 +111,7 @@ export default defineRoute<State>(async (_req, ctx) => {
               data-light-theme="light"
               data-dark-theme="dark"
               dangerouslySetInnerHTML={{
-                __html: render(todayDailyItem?.content ?? ""),
+                __html: render(todayDailyItem?.content ?? "", { gfm: true }),
               }}
             />
           </div>
