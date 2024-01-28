@@ -105,7 +105,7 @@ export async function createItem(item: Item) {
 }
 
 export async function createDailyItem(dailyItem: DailyItem) {
-  const dailyItemsKey = ["daily_items", dailyItem.date];
+  const dailyItemsKey = ["daily_items", dailyItem.id];
   const dailyItemsByUserKey = [
     "daily_items_by_user",
     dailyItem.userLogin,
@@ -113,8 +113,8 @@ export async function createDailyItem(dailyItem: DailyItem) {
   ];
 
   const res = await kv.atomic()
-    // .check({ key: daily_itemsKey, versionstamp: null })
-    // .check({ key: daily_itemsByUserKey, versionstamp: null })
+    // .check({ key: dailyItemsKey, versionstamp: null })
+    // .check({ key: dailyItemsByUserKey, versionstamp: null })
     .set(dailyItemsKey, dailyItem)
     .set(dailyItemsByUserKey, dailyItem)
     .commit();
@@ -142,16 +142,14 @@ export async function getItem(id: string) {
   return res.value;
 }
 
-export async function getDailyItem(date: string) {
-  const res = await kv.get<DailyItem>(["daily_items", date]);
+export async function getItemByUserAndDate(user: string, date: string) {
+  const res = await kv.get<DailyItem>(["daily_items_by_user", user, date]);
   return res.value;
 }
 
-export async function getTodayDailyItem() {
-  const today = new Date().toISOString().slice(0, 10);
-
-  const dailyItem = await getDailyItem(today.toString());
-  return dailyItem;
+export async function getDailyItem(id: string) {
+  const res = await kv.get<DailyItem>(["daily_items", id]);
+  return res.value;
 }
 
 /**
@@ -195,6 +193,14 @@ export function listItemsByUser(
   options?: Deno.KvListOptions,
 ) {
   return kv.list<Item>({ prefix: ["items_by_user", userLogin] }, options);
+}
+
+export function listDailyItemsByUser(
+  userLogin: string,
+  options?: Deno.KvListOptions,
+) {
+  console.log("userLogin", userLogin)
+  return kv.list<Item>({ prefix: ["daily_items_by_user", userLogin] }, options);
 }
 
 // Vote

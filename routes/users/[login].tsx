@@ -1,6 +1,6 @@
 // Copyright 2023-2024 the Deno authors. All rights reserved. MIT license.
 import type { State } from "@/plugins/session.ts";
-import { getUser } from "@/utils/db.ts";
+import { getUser, listDailyItemsByUser } from "@/utils/db.ts";
 import IconBrandGithub from "tabler_icons_tsx/brand-github.tsx";
 import Head from "@/components/Head.tsx";
 import GitHubAvatarImg from "@/components/GitHubAvatarImg.tsx";
@@ -43,6 +43,13 @@ export default defineRoute<State>(
 
     const isSignedIn = ctx.state.sessionUser !== undefined;
     const endpoint = `/api/users/${login}/items`;
+
+    const list = await listDailyItemsByUser(login);
+    for await (const entry of list) {
+      console.log(entry.key); // ["preferences", "ada"]
+      console.log(entry.value); // { ... }
+      console.log(entry.versionstamp); // "00000000000000010000"
+    }
 
     return (
       <>

@@ -3,7 +3,7 @@ import IconCheckCircle from "tabler_icons_tsx/circle-check.tsx";
 import IconCircleX from "tabler_icons_tsx/circle-x.tsx";
 import { defineRoute, Handlers } from "$fresh/server.ts";
 import { CSS, render } from "$gfm";
-import { createDailyItem, getTodayDailyItem } from "@/utils/db.ts";
+import { createDailyItem, getItemByUserAndDate } from "@/utils/db.ts";
 import { redirect } from "@/utils/http.ts";
 import {
   assertSignedIn,
@@ -45,7 +45,7 @@ export const handler: Handlers<undefined, SignedInState> = {
 export default defineRoute<State>(async (_req, ctx) => {
   const today = new Date().toISOString().slice(0, 10);
 
-  const todayDailyItem = await getTodayDailyItem();
+  const todayDailyItem = await getItemByUserAndDate(ctx.state.sessionUser.login, today);
   console.log(new Date().toISOString());
   console.log("todayDailyItem", todayDailyItem);
 
@@ -111,7 +111,7 @@ export default defineRoute<State>(async (_req, ctx) => {
               data-light-theme="light"
               data-dark-theme="dark"
               dangerouslySetInnerHTML={{
-                __html: render(todayDailyItem?.content ?? "", { gfm: true }),
+                __html: render(todayDailyItem?.content ?? ""),
               }}
             />
           </div>
