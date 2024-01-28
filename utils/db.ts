@@ -105,16 +105,16 @@ export async function createItem(item: Item) {
 }
 
 export async function createDailyItem(dailyItem: DailyItem) {
-  const dailyItemsKey = ["dailyItems", dailyItem.date];
+  const dailyItemsKey = ["daily_items", dailyItem.date];
   const dailyItemsByUserKey = [
-    "dailyItems_by_user",
+    "daily_items_by_user",
     dailyItem.userLogin,
     dailyItem.date,
   ];
 
   const res = await kv.atomic()
-    // .check({ key: dailyItemsKey, versionstamp: null })
-    // .check({ key: dailyItemsByUserKey, versionstamp: null })
+    // .check({ key: daily_itemsKey, versionstamp: null })
+    // .check({ key: daily_itemsByUserKey, versionstamp: null })
     .set(dailyItemsKey, dailyItem)
     .set(dailyItemsByUserKey, dailyItem)
     .commit();
@@ -143,7 +143,7 @@ export async function getItem(id: string) {
 }
 
 export async function getDailyItem(date: string) {
-  const res = await kv.get<DailyItem>(["dailyItems", date]);
+  const res = await kv.get<DailyItem>(["daily_items", date]);
   return res.value;
 }
 
